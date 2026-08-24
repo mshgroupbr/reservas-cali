@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reservas — Texas Country Bar</title>
+<title>Reservas — Cali Cravings Gastro Bar</title>
 
 <!-- PWA -->
-<link rel="manifest" href="reservas-texas-manifest.json">
-<meta name="theme-color" content="#1C1512">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2C3E35">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Reservas Texas">
-<link rel="apple-touch-icon" href="reservas-texas-icon-180.png">
-<link rel="apple-touch-icon" sizes="152x152" href="reservas-texas-icon-152.png">
-<link rel="apple-touch-icon" sizes="167x167" href="reservas-texas-icon-167.png">
-<link rel="apple-touch-icon" sizes="180x180" href="reservas-texas-icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="reservas-texas-icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-title" content="Cali Reservas">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -24,13 +24,13 @@
 
 <style>
   :root {
-    --verde: #1C1512;
-    --areia: #F4EAD9;
-    --dourado: #8B2131;
-    --dourado-claro: #A8394A;
-    --vermelho: #E2574C;
-    --cinza: #9C8D82;
-    --branco: #FBF6EC;
+    --verde: #2C3E35;
+    --areia: #F5F0E8;
+    --dourado: #C9A96E;
+    --dourado-claro: #E8D5B0;
+    --vermelho: #8B3A3A;
+    --cinza: #6B6B5E;
+    --branco: #FDFAF4;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,7 +38,7 @@
   body {
     background: var(--verde);
     color: var(--areia);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -49,8 +49,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(ellipse at 20% 20%, rgba(139,33,49,0.10) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(139,33,49,0.06) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 20%, rgba(201,169,110,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(201,169,110,0.05) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -64,30 +64,30 @@
     align-items: center;
     padding: 1.2rem 2rem;
     z-index: 100;
-    background: rgba(28,21,18,0.95);
+    background: rgba(44,62,53,0.95);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(139,33,49,0.25);
+    border-bottom: 1px solid rgba(201,169,110,0.2);
   }
 
   .nav-logo {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 1.3rem;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    color: var(--branco);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--dourado);
   }
 
-  .nav-logo span { font-weight: 400; color: var(--branco); }
+  .nav-logo span { font-style: italic; font-weight: 300; color: var(--areia); }
 
   .nav-actions { display: flex; gap: 1rem; }
 
   .btn-nav {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 0.5rem 1rem;
-    border: 1px solid rgba(139,33,49,0.4);
+    border: 1px solid rgba(201,169,110,0.4);
     background: transparent;
     color: var(--dourado);
     cursor: pointer;
@@ -105,69 +105,39 @@
     text-align: center;
     position: relative;
     z-index: 1;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('reservas-texas-bg.jpg');
-    background-size: cover;
-    background-position: center 15%;
-    opacity: 0.95;
-    filter: saturate(1.5) contrast(1.1) brightness(1.05);
-    z-index: -2;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom,
-      rgba(28,21,18,0.05) 0%,
-      rgba(28,21,18,0.35) 40%,
-      rgba(28,21,18,0.78) 65%,
-      var(--verde) 88%);
-    z-index: -1;
   }
 
   .hero-eyebrow {
-    font-family: 'Inter', sans-serif;
     font-size: 0.65rem;
-    font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--areia);
+    color: var(--dourado);
     margin-bottom: 1.5rem;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.2s;
   }
 
   .hero-title {
-    font-family: 'Bevan', serif;
-    font-size: clamp(2.4rem, 7vw, 4.6rem);
-    font-weight: 400;
-    text-transform: none;
-    line-height: 1.1;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 300;
+    line-height: 1.0;
     color: var(--areia);
     margin-bottom: 1.5rem;
     opacity: 0;
-    text-shadow: 0 3px 16px rgba(0,0,0,0.6);
     animation: fadeUp 0.8s ease forwards 0.4s;
   }
 
   .hero-title em {
-    font-style: normal;
-    color: var(--areia);
+    font-style: italic;
+    color: var(--dourado);
   }
 
   .hero-sub {
     font-size: 0.75rem;
     letter-spacing: 0.1em;
-    color: var(--areia);
+    color: var(--cinza);
     opacity: 0;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     animation: fadeUp 0.8s ease forwards 0.6s;
   }
 
@@ -181,7 +151,7 @@
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.7s;
   }
-  .ornament-line { flex: 1; height: 1px; background: rgba(139,33,49,0.35); }
+  .ornament-line { flex: 1; height: 1px; background: rgba(201,169,110,0.3); }
   .ornament-diamond {
     width: 6px; height: 6px;
     background: var(--dourado);
@@ -222,10 +192,10 @@
 
   .form-input {
     width: 100%;
-    background: rgba(244,234,217,0.06);
-    border: 1px solid rgba(139,33,49,0.3);
+    background: rgba(245,240,232,0.06);
+    border: 1px solid rgba(201,169,110,0.25);
     color: var(--areia);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.85rem;
     padding: 0.9rem 1rem;
     outline: none;
@@ -235,22 +205,22 @@
 
   .form-input:focus {
     border-color: var(--dourado);
-    background: rgba(244,234,217,0.1);
+    background: rgba(245,240,232,0.1);
   }
 
-  .form-input::placeholder { color: rgba(244,234,217,0.25); }
+  .form-input::placeholder { color: rgba(245,240,232,0.25); }
 
   .form-input option,
   .form-input optgroup {
-    background: #120D0B;
-    color: #F4EAD9;
+    background: #1e2e27;
+    color: #F5F0E8;
   }
 
   /* Select customizado */
   select.form-input {
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9932A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A96E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     padding-right: 2.5rem;
@@ -266,17 +236,17 @@
 
   .time-btn {
     padding: 0.6rem 0.3rem;
-    border: 1px solid rgba(139,33,49,0.3);
-    background: rgba(244,234,217,0.05);
+    border: 1px solid rgba(201,169,110,0.25);
+    background: rgba(245,240,232,0.05);
     color: var(--areia);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.75rem;
     cursor: pointer;
     transition: all 0.15s;
     text-align: center;
   }
 
-  .time-btn:hover { border-color: var(--dourado); background: rgba(139,33,49,0.1); }
+  .time-btn:hover { border-color: var(--dourado); background: rgba(201,169,110,0.1); }
   .time-btn.selected { background: var(--dourado); color: var(--verde); border-color: var(--dourado); font-weight: 600; }
 
   /* pessoas */
@@ -288,10 +258,10 @@
 
   .pessoa-btn {
     padding: 0.7rem 0.3rem;
-    border: 1px solid rgba(139,33,49,0.3);
-    background: rgba(244,234,217,0.05);
+    border: 1px solid rgba(201,169,110,0.25);
+    background: rgba(245,240,232,0.05);
     color: var(--areia);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.15s;
@@ -310,7 +280,7 @@
     background: var(--dourado);
     border: none;
     color: var(--verde);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.75rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -340,9 +310,9 @@
   }
 
   .success-title {
-    font-family: 'Bevan', serif;
-    font-size: 2.2rem;
-    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
     color: var(--dourado);
     margin-bottom: 1rem;
   }
@@ -361,7 +331,7 @@
     padding: 0.9rem 1.8rem;
     background: #25D366;
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-decoration: none;
@@ -403,9 +373,9 @@
   }
 
   .painel-title {
-    font-family: 'Bevan', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
     color: var(--dourado);
   }
 
@@ -416,12 +386,12 @@
   }
 
   .filtro-btn {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(139,33,49,0.3);
+    border: 1px solid rgba(201,169,110,0.3);
     background: transparent;
     color: var(--cinza);
     cursor: pointer;
@@ -431,15 +401,15 @@
   .filtro-btn:hover, .filtro-btn.ativo {
     border-color: var(--dourado);
     color: var(--dourado);
-    background: rgba(139,33,49,0.08);
+    background: rgba(201,169,110,0.08);
   }
 
   /* Cards de reserva */
   .reservas-lista { display: flex; flex-direction: column; gap: 1rem; }
 
   .reserva-card {
-    border: 1px solid rgba(139,33,49,0.2);
-    background: rgba(244,234,217,0.04);
+    border: 1px solid rgba(201,169,110,0.2);
+    background: rgba(245,240,232,0.04);
     padding: 1.2rem 1.4rem;
     display: grid;
     grid-template-columns: 1fr auto;
@@ -448,13 +418,13 @@
     transition: border-color 0.2s;
   }
 
-  .reserva-card:hover { border-color: rgba(139,33,49,0.4); }
+  .reserva-card:hover { border-color: rgba(201,169,110,0.4); }
 
   .reserva-info {}
 
   .reserva-nome {
-    font-family: 'Bevan', serif;
-    font-size: 1.15rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
     font-weight: 400;
     color: var(--areia);
     margin-bottom: 0.3rem;
@@ -474,7 +444,7 @@
 
   .reserva-obs {
     font-size: 0.7rem;
-    color: rgba(244,234,217,0.5);
+    color: rgba(245,240,232,0.5);
     font-style: italic;
     margin-top: 0.4rem;
   }
@@ -489,14 +459,14 @@
     border-radius: 0;
   }
 
-  .badge-pendente { background: rgba(139,33,49,0.15); color: var(--dourado); border: 1px solid rgba(139,33,49,0.3); }
-  .badge-confirmado { background: rgba(127,176,105,0.15); color: #7FB069; border: 1px solid rgba(127,176,105,0.3); }
-  .badge-cancelado { background: rgba(226,87,76,0.15); color: #E2574C; border: 1px solid rgba(226,87,76,0.3); }
+  .badge-pendente { background: rgba(201,169,110,0.15); color: var(--dourado); border: 1px solid rgba(201,169,110,0.3); }
+  .badge-confirmado { background: rgba(44,162,80,0.15); color: #6fcf97; border: 1px solid rgba(111,207,151,0.3); }
+  .badge-cancelado { background: rgba(139,58,58,0.15); color: #eb8787; border: 1px solid rgba(235,135,135,0.3); }
 
   .action-btns { display: flex; gap: 0.4rem; }
 
   .btn-acao {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.1em;
     padding: 0.35rem 0.7rem;
@@ -506,10 +476,10 @@
     transition: all 0.15s;
   }
 
-  .btn-confirmar { border-color: rgba(127,176,105,0.4); color: #7FB069; }
-  .btn-confirmar:hover { background: rgba(127,176,105,0.1); }
-  .btn-cancelar { border-color: rgba(226,87,76,0.4); color: #E2574C; }
-  .btn-cancelar:hover { background: rgba(226,87,76,0.1); }
+  .btn-confirmar { border-color: rgba(111,207,151,0.4); color: #6fcf97; }
+  .btn-confirmar:hover { background: rgba(111,207,151,0.1); }
+  .btn-cancelar { border-color: rgba(235,135,135,0.4); color: #eb8787; }
+  .btn-cancelar:hover { background: rgba(235,135,135,0.1); }
   .btn-wpp-small {
     border-color: rgba(37,211,102,0.4);
     color: #25D366;
@@ -531,7 +501,7 @@
   .login-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(28,21,18,0.97);
+    background: rgba(44,62,53,0.97);
     z-index: 200;
     display: flex;
     align-items: center;
@@ -541,9 +511,9 @@
   }
 
   .login-overlay h2 {
-    font-family: 'Bevan', serif;
-    font-size: 1.8rem;
-    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
     color: var(--dourado);
   }
 
@@ -554,10 +524,10 @@
   }
 
   .login-input {
-    background: rgba(244,234,217,0.06);
-    border: 1px solid rgba(139,33,49,0.3);
+    background: rgba(245,240,232,0.06);
+    border: 1px solid rgba(201,169,110,0.25);
     color: var(--areia);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 1.2rem;
     padding: 0.9rem 1.2rem;
     width: 260px;
@@ -568,7 +538,7 @@
 
   .login-input:focus { border-color: var(--dourado); }
 
-  .login-error { font-size: 0.65rem; color: #E2574C; letter-spacing: 0.1em; min-height: 1rem; }
+  .login-error { font-size: 0.65rem; color: #eb8787; letter-spacing: 0.1em; min-height: 1rem; }
 
   /* Modal cancelamento */
   .modal-overlay {
@@ -585,7 +555,7 @@
 
   .modal {
     background: var(--verde);
-    border: 1px solid rgba(139,33,49,0.35);
+    border: 1px solid rgba(201,169,110,0.3);
     padding: 2.5rem;
     max-width: 400px;
     width: 90%;
@@ -593,9 +563,9 @@
   }
 
   .modal h3 {
-    font-family: 'Bevan', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
     color: var(--dourado);
     margin-bottom: 0.8rem;
   }
@@ -614,7 +584,7 @@
     background: var(--vermelho);
     border: none;
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     cursor: pointer;
@@ -623,9 +593,9 @@
   .btn-modal-nao {
     padding: 0.7rem 1.5rem;
     background: transparent;
-    border: 1px solid rgba(244,234,217,0.2);
+    border: 1px solid rgba(245,240,232,0.2);
     color: var(--cinza);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     cursor: pointer;
@@ -639,7 +609,7 @@
     transform: translateX(-50%) translateY(80px);
     background: var(--dourado);
     color: var(--verde);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
     padding: 0.8rem 1.5rem;
@@ -673,7 +643,7 @@
 
 <!-- Nav -->
 <nav>
-  <div class="nav-logo">Texas <span>Country Bar</span></div>
+  <div class="nav-logo">Cali <span>Cravings</span></div>
   <div class="nav-actions">
     <button class="btn-nav active" id="btn-ir-reservar">Reservar</button>
   </div>
@@ -693,8 +663,8 @@
 <!-- ════ VIEW: RESERVAR ════ -->
 <div id="view-reservar">
   <div class="hero">
-    <p class="hero-eyebrow">Texas Country Bar · Itapema</p>
-    <h1 class="hero-title">Reserve sua<br><em>Mesa</em></h1>
+    <p class="hero-eyebrow">Cali Gastro-Bar · Itapema</p>
+    <h1 class="hero-title">Reserve sua<br><em>experiência</em></h1>
     <p class="hero-sub">Sua reserva será confirmada via WhatsApp pela nossa equipe</p>
     <div class="ornament">
       <div class="ornament-line"></div>
@@ -754,8 +724,8 @@
       <label class="form-label">Ambiente</label>
       <select class="form-input" id="ambiente" size="1">
         <option value="" disabled selected>Selecione o ambiente</option>
-        <option value="Salão Texas Térreo">Salão Texas Térreo</option>
-        <option value="Texas Rooftop">Texas Rooftop</option>
+        <option value="1º Piso — Salão LED">1º Piso — Salão LED</option>
+        <option value="2º Piso — Salão Rooftop">2º Piso — Salão Rooftop</option>
       </select>
     </div>
 
@@ -817,26 +787,23 @@
 
 <script>
 // ══════════════════════════════
-//  FIREBASE CONFIG — ⚠️ ATUALIZE AQUI
-//  Crie um projeto novo no console do Firebase (ex.: "reservas-texas")
-//  com Realtime Database ativado, e cole a config abaixo
-//  (Configurações do projeto → Seus apps → SDK setup and configuration).
+//  FIREBASE CONFIG — ATUALIZE AQUI
 // ══════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyAdSV_X_soIB-m3cbtZ_AXpM9gvpCZuF5E",
-  authDomain: "reservas-texas.firebaseapp.com",
-  databaseURL: "https://reservas-texas-default-rtdb.firebaseio.com",
-  projectId: "reservas-texas",
-  storageBucket: "reservas-texas.firebasestorage.app",
-  messagingSenderId: "670868899984",
-  appId: "1:670868899984:web:8b1f832dac95d493d73015"
+  apiKey: "AIzaSyAjxZxOoMCbJCR86WA6fBD4xjMeF2tUzyM",
+  authDomain: "cali-reservas.firebaseapp.com",
+  databaseURL: "https://cali-reservas-default-rtdb.firebaseio.com",
+  projectId: "cali-reservas",
+  storageBucket: "cali-reservas.firebasestorage.app",
+  messagingSenderId: "537738028833",
+  appId: "1:537738028833:web:6df0f4d936e69234ff0060"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ── Config ──
-const WHATSAPP_NUMBER = "5547991388308";
+const WHATSAPP_NUMBER = "5547992918294";
 const SENHA_PAINEL = "130130"; // senha gerência
 const HORARIOS = ["11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00"];
 
@@ -858,7 +825,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderTimeGrid() {
   const grid = document.getElementById('time-grid');
-  if (!grid) return;
   HORARIOS.forEach(h => {
     const btn = document.createElement('button');
     btn.className = 'time-btn';
@@ -874,7 +840,6 @@ function renderTimeGrid() {
 
 function renderPessoasGrid() {
   const grid = document.getElementById('pessoas-grid');
-  if (!grid) return;
   for (let i = 1; i <= 12; i++) {
     const btn = document.createElement('button');
     btn.className = 'pessoa-btn';
@@ -941,7 +906,7 @@ function mostrarSucesso(r) {
   // link whatsapp
   const dataFmt = formatarData(r.data);
   const msg = encodeURIComponent(
-    `Olá! Gostaria de confirmar minha reserva no Texas Country Bar:\n\n` +
+    `Olá! Gostaria de confirmar minha reserva no Cali Cravings:\n\n` +
     `👤 Nome: ${r.nome}\n📅 Data: ${dataFmt}\n🕐 Horário: ${r.horario}\n👥 Pessoas: ${r.pessoas}\n🏠 Ambiente: ${r.ambiente}\n` +
     (r.obs ? `📝 Obs: ${r.obs}` : '')
   );
@@ -969,8 +934,7 @@ function showView(view) {
   document.getElementById('view-reservar').style.display = view === 'reservar' ? 'block' : 'none';
   document.getElementById('view-painel').style.display = view === 'painel' ? 'block' : 'none';
   document.getElementById('btn-ir-reservar').classList.toggle('active', view === 'reservar');
-  const btnPainel = document.getElementById('btn-ir-painel');
-  if (btnPainel) btnPainel.classList.toggle('active', view === 'painel');
+  document.getElementById('btn-ir-painel').classList.toggle('active', view === 'painel');
 }
 
 function abrirPainel() {
@@ -1035,7 +999,7 @@ function renderReservas() {
   lista.innerHTML = filtradas.map(r => {
     const dataFmt = formatarData(r.data);
     const msg = encodeURIComponent(
-      `Olá ${r.nome}! Sua reserva no Texas Country Bar para ${dataFmt} às ${r.horario} para ${r.pessoas} pessoa(s) foi confirmada. Até lá! 🤠`
+      `Olá ${r.nome}! Sua reserva no Cali Cravings para ${dataFmt} às ${r.horario} para ${r.pessoas} pessoa(s) foi confirmada. Até lá! 🍽️`
     );
     const wppHref = `https://wa.me/${limparFone(r.telefone)}?text=${msg}`;
 
